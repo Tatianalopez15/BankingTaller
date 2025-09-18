@@ -11,10 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from environs import Env    
-# start env varables
-env = Env()
-env.read_env() # read .env file, if it exists
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,11 +77,11 @@ DATABASES = {
     
     'local': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST' : env('db_host',default='localhost'),
-        'NAME': env('db_name',default='banking'),
-        'USER': env('db_user',default='postgres'),
-        'PASSWORD': env('db_password',default='simon'),
-        'PORT': env('db_port',default='5433'),
+        'HOST' : 'localhost',
+        'NAME': 'banking',
+        'USER': 'postgres',
+        'PASSWORD': 'unicesmag',
+        'PORT': '5433',
     },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
