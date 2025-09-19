@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env
+#start env variables
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!fm+$7h3%x0vom&iw1qz5pm!ot&o5g(t4pz&6w!!b8j$7&53jy'
+SECRET_KEY = 'django-insecure-2rww((=%#l^pvf$b5!q&30)=vm6enp8(r#l7_xy-(m7#t(4ox@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,20 +79,45 @@ WSGI_APPLICATION = 'banking.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    
-    'local': {
+ 
+      'local': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST' : 'localhost',
-        'NAME': 'banking',
-        'USER': 'postgres',
-        'PASSWORD': 'unicesmag',
-        'PORT': '5433',
-    },
+        'HOST': env('DB_HOST', default='localhost'),
+
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+       
+        'PASSWORD': env('DB_PASSWORD'),
+        'PORT': env('DB_PORT', default='5433'),
+      },
+
+
+ # crear otra instancia co nlas credenciales de supabase
+   
+   
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': env('SUPA_HOST', default='aws-1-us-east-2.pooler.supabase.com'),
+        'NAME': env('SUPA_NAME'), 
+        'USER': env('SUPA_USER'),
+       
+        'PASSWORD': env('SUPA_PASSWORD'),
+        'PORT': env('SUPA_PORT', default='6543'),
+      },
+
+       
+
+    'local1': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'banking.sqlite3',
     }
 }
+  
+  
+
+
+
+
 
 
 # Password validation
@@ -129,4 +159,6 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'authentication.CustomUser'
